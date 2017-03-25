@@ -11578,6 +11578,7 @@ LD.LoggedIn.prototype= {
   initialize:function() {
   	this.hideAllContainer();
   	this.handleMenuClick();
+    console.log("loggedin");
   },
 
   hideAllContainer:function() {
