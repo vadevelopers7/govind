@@ -14,9 +14,24 @@ RSpec.describe Country, type: :model do
   		it "should return states of current country" do
   			country = FactoryGirl.create(:country)
   			state = FactoryGirl.create(:state, country_id: country.id)
-  			state1 = FactoryGirl.create(:state, country_id: country.id, name: "Delhi")
+  			state1 = FactoryGirl.create(:state, country_id: country.id, name: "Delhi", code: "DL")
   			expect(country.states).to eq([state,state1])
   		end
   	end
+  end
+
+  describe "validates_uniqueness_of" do
+    context "name" do
+      it "should not allow to create same country" do
+        expect(FactoryGirl.create(:country, name: "India")).to be_valid
+        expect(FactoryGirl.build(:country, name: "india")).not_to be_valid
+      end
+    end
+    context "code" do
+      it "should not allow to create same country code as other country code" do
+        expect(FactoryGirl.create(:country, name: "India", code: "IN")).to be_valid
+        expect(FactoryGirl.build(:country, name: "USA", code: "IN")).not_to be_valid
+      end
+    end
   end
 end

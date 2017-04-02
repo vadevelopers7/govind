@@ -30,7 +30,7 @@ RSpec.describe City, type: :model do
         expect(FactoryGirl.build(:city, state_id: @state.id, name: "udaipur")).not_to be_valid
       end
       it "should allow to create same city name in different state." do
-        state = FactoryGirl.create(:state, country_id: @country.id)
+        state = FactoryGirl.create(:state, country_id: @country.id, code: "JP", name: "jaipur")
         expect(FactoryGirl.create(:city, state_id: @state.id)).to be_valid
         expect(FactoryGirl.create(:city, state_id: state.id)).to be_valid
       end
