@@ -31,5 +31,14 @@ RSpec.describe State, type: :model do
         expect(FactoryGirl.create(:state, country_id: country.id)).to be_valid
       end
     end
+
+    context "code" do
+      it "should not allow to create same state code the in same country" do
+        country = FactoryGirl.create(:country)
+        expect(FactoryGirl.create(:state, country_id: country.id, name: "Rajasthan")).to be_valid
+        expect(FactoryGirl.build(:state, country_id: country.id, name: "Gujrat")).not_to be_valid
+      end
+    end
+
   end
 end
