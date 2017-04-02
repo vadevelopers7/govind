@@ -5,7 +5,7 @@ class CreateCities < ActiveRecord::Migration
       t.string :name, null: false
       t.string :code, null: false
       t.decimal :min_shipping_charge, precision: 12, scale: 2, default: 0.00
-      t.boolean :active, default: false
+      t.boolean :active, default: true
 
       t.timestamps null: false
     end

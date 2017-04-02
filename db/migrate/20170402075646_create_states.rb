@@ -4,7 +4,7 @@ class CreateStates < ActiveRecord::Migration
       t.references :country, index: true
       t.string :name, null: false
       t.string :code, null: false
-      t.boolean :active, default: false
+      t.boolean :active, default: true
 
       t.timestamps null: false
     end
