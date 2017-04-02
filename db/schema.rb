@@ -18,31 +18,31 @@ ActiveRecord::Schema.define(version: 20170402085919) do
 
   create_table "cities", force: :cascade do |t|
     t.integer  "state_id"
-    t.string   "name",                                                         null: false
-    t.string   "code",                                                         null: false
+    t.string   "name",                                                        null: false
+    t.string   "code",                                                        null: false
     t.decimal  "min_shipping_charge", precision: 12, scale: 2, default: 0.0
-    t.boolean  "active",                                       default: false
-    t.datetime "created_at",                                                   null: false
-    t.datetime "updated_at",                                                   null: false
+    t.boolean  "active",                                       default: true
+    t.datetime "created_at",                                                  null: false
+    t.datetime "updated_at",                                                  null: false
   end
 
   add_index "cities", ["state_id"], name: "index_cities_on_state_id", using: :btree
 
   create_table "countries", force: :cascade do |t|
-    t.string   "name",                       null: false
-    t.string   "code",                       null: false
-    t.boolean  "active",     default: false
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.string   "name",                      null: false
+    t.string   "code",                      null: false
+    t.boolean  "active",     default: true
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   create_table "states", force: :cascade do |t|
     t.integer  "country_id"
-    t.string   "name",                       null: false
-    t.string   "code",                       null: false
-    t.boolean  "active",     default: false
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.string   "name",                      null: false
+    t.string   "code",                      null: false
+    t.boolean  "active",     default: true
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
   end
 
   add_index "states", ["country_id"], name: "index_states_on_country_id", using: :btree
