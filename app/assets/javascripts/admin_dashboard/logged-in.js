@@ -12,6 +12,9 @@ LD.LoggedIn.prototype= {
 
   hideAllContainer:function() {
   	$('.content #dashboardContainer').addClass('hidden');
+    $('.content #countryContainer').addClass('hidden');
+    $('.content #stateContainer').addClass('hidden');
+    $('.content #cityContainer').addClass('hidden');
   },
 
   handleMenuClick:function() {
@@ -21,5 +24,23 @@ LD.LoggedIn.prototype= {
   		self.hideAllContainer();
   		$('.content #dashboardContainer').removeClass('hidden');
   	});
+
+    $('.main_container .menu_section #adminCountryClick').unbind();
+    $('.main_container .menu_section #adminCountryClick').click(function(){
+      self.hideAllContainer();
+      $('.content #countryContainer').removeClass('hidden');
+    });
+
+    $('.main_container .menu_section #adminStateClick').unbind();
+    $('.main_container .menu_section #adminStateClick').click(function(){
+      self.hideAllContainer();
+      $('.content #stateContainer').removeClass('hidden');
+    });
+
+    $('.main_container .menu_section #adminCityClick').unbind();
+    $('.main_container .menu_section #adminCityClick').click(function(){
+      self.hideAllContainer();
+      $('.content #cityContainer').removeClass('hidden');
+    });
   }
 }
