@@ -5,14 +5,13 @@ ruby '2.2.4'
 gem 'activerecord-postgresql-adapter'
 
 group :development, :test do
-  gem 'rspec-rails'
-  gem 'factory_girl_rails'
-  gem 'simplecov'
-  gem 'database_cleaner'
-  gem 'shoulda-matchers'
   gem 'awesome_print'
+  gem 'database_cleaner'
+  gem 'factory_girl_rails'
+  gem 'rspec-rails'
+  gem 'shoulda-matchers'
+  gem 'simplecov'
 end
 
 gem 'jquery-rails'
 gem 'turbolinks'
-gem 'city-state'
