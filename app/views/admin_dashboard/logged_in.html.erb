@@ -34,6 +34,22 @@
                 <ul class="nav side-menu">
                   <li><a id="adminDashboardClick"><i class="fa fa-home"></i> Dashboard </a>
                   </li>
+
+                  <li><a><i class="fa fa-gears"></i> Setting <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li><a>Localisation<span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu" style="display: none;">
+                          <li class="sub_menu"><a id="adminCountryClick">Country</a>
+                          </li>
+                          <li><a id="adminStateClick">State</a>
+                          </li>
+                          <li><a id="adminCityClick">City</a>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+
                 </ul>
               </div>
             </div>
@@ -85,6 +101,9 @@
         <!-- page content -->
         <div class="content right_col" role="main">
           <%= render partial: 'admin_dashboard/dashboard'%>
+          <%= render partial: 'admin_dashboard/country'%>
+          <%= render partial: 'admin_dashboard/state'%>
+          <%= render partial: 'admin_dashboard/city'%>
         </div>
         <!-- /page content -->
 
