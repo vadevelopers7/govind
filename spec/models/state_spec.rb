@@ -39,13 +39,14 @@ RSpec.describe State, type: :model do
         expect(FactoryGirl.build(:state, country_id: @country.id, name: "Gujrat")).not_to be_valid
       end
     end
+  end
 
   describe "has_many" do
     context "cities" do
       it "should return cities of current state" do
         state = FactoryGirl.create(:state, country_id: @country.id)
         city = FactoryGirl.create(:city, state_id: state.id)
-        city1 = FactoryGirl.create(:city, state_id: state.id, name: "Jaipur")
+        city1 = FactoryGirl.create(:city, state_id: state.id, name: "Jaipur", code: "JP")
         expect(state.cities).to eq([city, city1])
       end
     end
