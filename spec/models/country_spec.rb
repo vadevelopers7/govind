@@ -8,4 +8,15 @@ RSpec.describe Country, type: :model do
       end
     end
   end
+
+  describe "has_many" do
+  	context "states" do
+  		it "should return states of current country" do
+  			country = FactoryGirl.create(:country)
+  			state = FactoryGirl.create(:state, country_id: country.id)
+  			state1 = FactoryGirl.create(:state, country_id: country.id, name: "Delhi")
+  			expect(country.states).to eq([state,state1])
+  		end
+  	end
+  end
 end
