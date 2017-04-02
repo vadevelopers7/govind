@@ -18,4 +18,18 @@ RSpec.describe State, type: :model do
   		end
   	end
   end
+
+  describe "validates_uniqueness_of" do
+    context "name" do
+      it "should not valid if same state the in same country" do
+        @country = FactoryGirl.create(:country)
+        expect(FactoryGirl.create(:state, country_id: @country.id, name: "Rajasthan")).to be_valid
+        expect(FactoryGirl.build(:state, country_id: @country.id, name: "rajasthan")).not_to be_valid
+      end
+      it "should allow to create same state name in different country." do
+        country = FactoryGirl.create(:country)
+        expect(FactoryGirl.create(:state, country_id: country.id)).to be_valid
+      end
+    end
+  end
 end
