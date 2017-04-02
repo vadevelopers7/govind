@@ -35,5 +35,11 @@ RSpec.describe City, type: :model do
         expect(FactoryGirl.create(:city, state_id: state.id)).to be_valid
       end
     end
+    context "code" do
+      it "should not valid if same city code the in same state" do
+        expect(FactoryGirl.create(:city, state_id: @state.id, name: "Udaipur")).to be_valid
+        expect(FactoryGirl.build(:city, state_id: @state.id, name: "Jaipur")).not_to be_valid
+      end
+    end
   end
 end
