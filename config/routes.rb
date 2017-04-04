@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   # admin panel routes start
   namespace(:admin) do |admin|
     resources :countries, except: [:new, :edit]
+    resources :states, except: [:new, :edit]
   end
   # admin panel routes end
 

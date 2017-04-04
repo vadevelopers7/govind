@@ -2,12 +2,16 @@ require 'rails_helper'
 
 RSpec.describe Admin::StatesController, type: :controller do
 
+  before(:each) do
+    @country = FactoryGirl.create(:country)
+  end
+
   describe "index" do
-    context "list of all countries" do
-      it "should render all countries without created_at & updated_at" do
-        country = FactoryGirl.create(:country)
+    context "list of all states" do
+      it "should render all states without created_at & updated_at" do
+        state = FactoryGirl.create(:state, country_id: @country.id)
         get :index
-        expect(JSON.parse(response.body)["countries"][0]).to eq("id" => country.id, "name" => country.name, "code" => country.code, "active" => country.active)
+        expect(JSON.parse(response.body)["states"][0]).to eq("id" => state.id, "country_id" => state.country_id, "name" => state.name, "code" => state.code, "active" => state.active)
         expect(response).to be_ok
       end
     end
@@ -15,19 +19,19 @@ RSpec.describe Admin::StatesController, type: :controller do
 
   describe "show" do
     before(:each) do
-      @country = FactoryGirl.create(:country)
+      @state = FactoryGirl.create(:state, country_id: @country.id)
     end
     context "with valid params" do
-      it "should render a specific country detail" do
-        get :show, id: @country.id
-        expect(JSON.parse(response.body)["country"]).to eq("id" => @country.id, "name" => @country.name, "code" => @country.code, "active" => @country.active)
+      it "should render a specific state detail" do
+        get :show, id: @state.id
+        expect(JSON.parse(response.body)["state"]).to eq("id" => @state.id, "country_id" => @state.country_id, "name" => @state.name, "code" => @state.code, "active" => @state.active)
         expect(response).to be_ok
       end
     end
     context "with invalid params" do
-      it "should not render country details" do
-        get :show, id: @country.id+1
-        expect(JSON.parse(response.body)).to eq("error"=>"Couldn't find Country with 'id'=#{@country.id+1}")
+      it "should not render state details" do
+        get :show, id: @state.id+1
+        expect(JSON.parse(response.body)).to eq("error"=>"Couldn't find State with 'id'=#{@state.id+1}")
         expect(response.status).to be 422
       end
     end
@@ -35,47 +39,47 @@ RSpec.describe Admin::StatesController, type: :controller do
 
   describe "create" do
     context "with valid params" do
-      it "should create country" do
-        post :create, country: FactoryGirl.attributes_for(:country)
-        expect(JSON.parse(response.body)["country"].keys).to contain_exactly("id", "name", "code", "active")
+      it "should create state" do
+        post :create, state: FactoryGirl.attributes_for(:state, country_id: @country.id)
+        expect(JSON.parse(response.body)["state"].keys).to contain_exactly("id", "country_id", "name", "code", "active")
         expect(response).to be_ok
       end
-      it "should increase Country table count by one" do
+      it "should increase State table count by one" do
         expect{
-          post :create, country: FactoryGirl.attributes_for(:country)
-        }.to change(Country, :count).by(1)
+          post :create, state: FactoryGirl.attributes_for(:state, country_id: @country.id)
+        }.to change(State, :count).by(1)
       end
     end
     context "with invalid params" do
-      it "should not create country" do
-        post :create, country: FactoryGirl.attributes_for(:country, name: nil)
+      it "should not create state" do
+        post :create, state: FactoryGirl.attributes_for(:state, country_id: @country.id, name: nil)
         expect(response.status).to be 422
       end
-      it "should not increase Country table count by one" do
+      it "should not increase State table count by one" do
         expect{
-          post :create, country: FactoryGirl.attributes_for(:country, code: nil)
-        }.to change(Country, :count).by(0)
+          post :create, state: FactoryGirl.attributes_for(:state, country_id: @country.id, code: nil)
+        }.to change(State, :count).by(0)
       end
     end
   end
 
   describe "update" do
     before(:each) do
-      @country = FactoryGirl.create(:country)
+      @state = FactoryGirl.create(:state, country_id: @country.id)
     end
     context "with valid params" do
-      it "should update country" do
-        put :update, id: @country.id, country: {name: "USA"}
-        @country.reload
-        expect(@country.name).to eq("USA")
+      it "should update state" do
+        put :update, id: @state.id, state: {name: "Jaipur"}
+        @state.reload
+        expect(@state.name).to eq("Jaipur")
         expect(response).to be_ok
       end
     end
     context "with invalid params" do
-      it "should not update country" do
-        put :update, id: @country.id, country: {name: "USA", code: nil}
-        @country.reload
-        expect(@country.name).to eq("India")
+      it "should not update state" do
+        put :update, id: @state.id, state: {name: "Jaipur", code: nil}
+        @state.reload
+        expect(@state.name).to eq("Rajasthan")
         expect(response.status).to be 422
       end
     end
@@ -83,28 +87,28 @@ RSpec.describe Admin::StatesController, type: :controller do
 
   describe "destroy" do
     before(:each) do
-      @country = FactoryGirl.create(:country)
+      @state = FactoryGirl.create(:state, country_id: @country.id)
     end
     context "with valid params" do
-      it "should destroy country" do
-        delete :destroy, id: @country.id
+      it "should destroy state" do
+        delete :destroy, id: @state.id
         expect(response).to be_ok
       end
-      it "should decrease Country table count by one" do
+      it "should decrease State table count by one" do
         expect{
-          delete :destroy, id: @country.id
-        }.to change(Country, :count).by(-1)
+          delete :destroy, id: @state.id
+        }.to change(State, :count).by(-1)
       end
     end
     context "with invalid params" do
-      it "should not destroy country" do
-        delete :destroy, id: @country.id+1
+      it "should not destroy state" do
+        delete :destroy, id: @state.id+1
         expect(response.status).to be 422
       end
-      it "should not decrease Country table count by one" do
+      it "should not decrease State table count by one" do
         expect{
-          delete :destroy, id: @country.id+1
-        }.to change(Country, :count).by(0)
+          delete :destroy, id: @state.id+1
+        }.to change(State, :count).by(0)
       end
     end
   end

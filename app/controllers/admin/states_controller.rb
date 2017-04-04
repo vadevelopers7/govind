@@ -14,7 +14,7 @@ class Admin::StatesController < ApplicationController
   def create
     begin
       State.transaction do
-        render :json => {state: JSON.parse(State.create!(country_params).to_json(except: [:created_at, :updated_at]))}, :status => :ok
+        render :json => {state: JSON.parse(State.create!(state_params).to_json(except: [:created_at, :updated_at]))}, :status => :ok
       end
     rescue => e
       render :json => {error: e.message}, :status => :unprocessable_entity
@@ -25,7 +25,7 @@ class Admin::StatesController < ApplicationController
     begin
       state = State.find(params[:id])
       State.transaction do
-        state.update!(country_params)
+        state.update!(state_params)
         render :json => {state: JSON.parse(state.to_json(except: [:created_at, :updated_at]))}, :status => :ok
       end
     rescue => e
@@ -46,7 +46,7 @@ class Admin::StatesController < ApplicationController
   end
 
   private
-  def country_params
-    params.require(:state).permit(:name, :code, :active)
+  def state_params
+    params.require(:state).permit(:country_id, :name, :code, :active)
   end
 end
