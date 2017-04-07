@@ -6,12 +6,19 @@ RSpec.describe Admin::StatesController, type: :controller do
     @country = FactoryGirl.create(:country)
   end
 
-  describe "index" do
-    context "list of all states" do
-      it "should render all states without created_at & updated_at" do
+  describe "index_by_country" do
+    context "valid params" do
+      it "should render all states of a country" do
         state = FactoryGirl.create(:state, country_id: @country.id)
-        get :index
+        get :index_by_country, country_id: state.country_id
         expect(JSON.parse(response.body)["states"][0]).to eq("id" => state.id, "country_id" => state.country_id, "name" => state.name, "code" => state.code, "active" => state.active)
+        expect(response).to be_ok
+      end
+    end
+    context "invalid params" do
+      it "should not render any state if country id invalid" do
+        get :index_by_country, country_id: 1
+        expect(JSON.parse(response.body)["states"]).to eq([])
         expect(response).to be_ok
       end
     end

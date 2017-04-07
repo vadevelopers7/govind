@@ -1,6 +1,10 @@
 class Admin::StatesController < ApplicationController
-  def index
-    render json: {states:JSON.parse(State.all.to_json(except: [:created_at, :updated_at]))}, status: :ok
+  def index_by_country
+    begin
+      render json: {states:JSON.parse(State.of_country(params[:country_id]).to_json(except: [:created_at, :updated_at]))}, status: :ok
+    rescue => e
+      render :json => {error: e.message}, :status => :unprocessable_entity
+    end
   end
 
   def show
