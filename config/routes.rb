@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
 
-  root :to => "admin/admin_dashboard#index"
+  root :to => "admin/dashboard#index"
   # admin panel routes start
   namespace(:admin) do |admin|
-    get '', to: 'admin_dashboard#index'
+    get '', to: 'dashboard#index'
 
     resources :countries, except: [:new, :edit]
 

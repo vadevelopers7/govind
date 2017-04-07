@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Admin::AdminDashboardController, type: :controller do
+RSpec.describe Admin::DashboardController, type: :controller do
 
   describe "GET #index" do
     subject { get :index }
