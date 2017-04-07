@@ -4,6 +4,5 @@ FactoryGirl.define do
     name "Udaipur"
     code "UDR"
     min_shipping_charge "0.00"
-    active false
   end
 end
