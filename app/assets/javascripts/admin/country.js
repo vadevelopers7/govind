@@ -57,12 +57,12 @@ LD.Country.prototype= {
 	        data: {country: params},
 	        format: 'JSON',
 	        success: function (data, textStatus, jqXHR) {
-	        	var mydata = data.country;
+	        	var countryData = data.country;
 	          $('#countryContainer #countryTable').bootstrapTable('insertRow', {index: 0, row: {
-	              id : mydata.id,
-	              name : mydata.name,
-	              code : mydata.code,
-	              active : mydata.active
+	              id : countryData.id,
+	              name : countryData.name,
+	              code : countryData.code,
+	              active : countryData.active
             	}
           	});
 	        },
@@ -80,10 +80,8 @@ LD.Country.prototype= {
       type: 'GET',
       format: 'JSON',
       success: function (data, textStatus, jqXHR) {
-      	var mydata = data.countries
-        $('#countryContainer #countryTable').bootstrapTable({
-          data: mydata
-        });
+      	var countryData = data.countries
+        $('#countryContainer #countryTable').bootstrapTable('load', countryData);
       },
       error: function (jqXHR, textStatus, errorThrown) {
        
