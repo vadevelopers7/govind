@@ -34,34 +34,23 @@
     </div>
 
     <div class="x_content">
-			<table class="table state-table" data-toggle="table"
-			 	data-url="https://api.github.com/users/wenzhixin/repos"
+			<table id="stateTable" class="table state-table" data-toggle="table"
 			 	data-query-params="queryParams"
 			 	data-pagination="true"
 			 	data-search="true" data-striped="true">
 				<thead>
 				  <tr>
-				    <th data-field="title">Title</th>
+				    <th data-field="name">Title</th>
 				    <th data-field="code">Code</th>
 				    <th data-field="country_name">Country Name</th>
 				    <th data-field="status">Status</th>
-				    <th data-field="action">Action</th>
 				  </tr>
 				</thead>
-        <tbody>
-          <tr>
-            <td>Rajasthan</td>
-            <td>Raj</td>
-            <td>India</td>
-            <td>True</td>
-            <td>Edit / Delete</td>
-          </tr>
-        </tbody>
 			</table>
 
 
 
-      <div class="modal fade state-modal in" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal fade state-modal in" id="stateModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-sm">
           <div class="modal-content">
             <div class="modal-header">
@@ -74,13 +63,13 @@
                 <div class="form-group">
                   <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Title</label>
                   <div class="col-md-9 col-sm-9 col-xs-12">
-                    <input id="title" class="form-control col-md-9 col-xs-12" type="text" name="country_title" placeholder="Country Title">
+                    <input id="title" class="form-control col-md-9 col-xs-12" type="text" name="title" placeholder="State Title">
                   </div>
                 </div>
                 <div class="form-group">
                   <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Code</label>
                   <div class="col-md-9 col-sm-9 col-xs-12">
-                    <input id="code" class="form-control col-md-9 col-xs-12" type="text" name="country_code" placeholder="Country Code">
+                    <input id="code" class="form-control col-md-9 col-xs-12" type="text" name="code" placeholder="State Code">
                   </div>
                 </div>
 
@@ -103,7 +92,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save Changes</button>
+                <button type="button" id="submitState" class="btn btn-primary">Save Changes</button>
               </div>
             </form>
           </div>
