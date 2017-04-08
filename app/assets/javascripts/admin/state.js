@@ -81,7 +81,19 @@ LD.State.prototype= {
       format: 'JSON',
       success: function (data, textStatus, jqXHR) {
       	var stateData = data.states
-        $('#stateContainer #stateTable').bootstrapTable('load', stateData);
+        var serail_number = 1;
+        $.each(stateData, function (i, item) {
+          $('#stateContainer #stateTable').bootstrapTable('load',{
+            data: [{
+                s_no: serail_number,
+                name: item.name,
+                code: item.code,
+                active: item.active,
+                action: "<a href='#' class='label label-warning'>Edit</a>&nbsp;&nbsp;&nbsp;<a href='#' class='label label-danger'>Delete</a>"
+            }]
+           });
+          serail_number++;
+        });
       },
       error: function (jqXHR, textStatus, errorThrown) {
        
