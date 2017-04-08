@@ -11571,6 +11571,100 @@ Copyright © 2016 Basecamp, LLC
 var o,i,s,a,u;return i=null!=n?n:{},a=i.restorationIdentifier,s=i.restorationData,o=i.historyChanged,u=new t.Visit(this,e,r),u.restorationIdentifier=null!=a?a:t.uuid(),u.restorationData=t.copyObject(s),u.historyChanged=o,u.referrer=this.location,u},r.prototype.visitCompleted=function(t){return this.notifyApplicationAfterPageLoad(t.getTimingMetrics())},r.prototype.clickEventIsSignificant=function(t){return!(t.defaultPrevented||t.target.isContentEditable||t.which>1||t.altKey||t.ctrlKey||t.metaKey||t.shiftKey)},r.prototype.getVisitableLinkForNode=function(e){return this.nodeIsVisitable(e)?t.closest(e,"a[href]:not([target])"):void 0},r.prototype.getVisitableLocationForLink=function(e){var r;return r=new t.Location(e.getAttribute("href")),this.locationIsVisitable(r)?r:void 0},r.prototype.getActionForLink=function(t){var e;return null!=(e=t.getAttribute("data-turbolinks-action"))?e:"advance"},r.prototype.nodeIsVisitable=function(e){var r;return(r=t.closest(e,"[data-turbolinks]"))?"false"!==r.getAttribute("data-turbolinks"):!0},r.prototype.locationIsVisitable=function(t){return t.isPrefixedBy(this.view.getRootLocation())&&t.isHTML()},r.prototype.getCurrentRestorationData=function(){return this.getRestorationDataForIdentifier(this.restorationIdentifier)},r.prototype.getRestorationDataForIdentifier=function(t){var e;return null!=(e=this.restorationData)[t]?e[t]:e[t]={}},r}()}.call(this),function(){var e,r,n;t.start=function(){return r()?(null==t.controller&&(t.controller=e()),t.controller.start()):void 0},r=function(){return null==window.Turbolinks&&(window.Turbolinks=t),n()},e=function(){var e;return e=new t.Controller,e.adapter=new t.BrowserAdapter(e),e},n=function(){return window.Turbolinks===t},n()&&t.start()}.call(this)}).call(this),"object"==typeof module&&module.exports?module.exports=t:"function"==typeof define&&define.amd&&define(t)}).call(this);
 var LD = LD || {};
 
+LD.Country = function () {
+  this.initialize();
+}
+LD.Country.prototype= {
+  initialize:function() {
+  	this.resetCountryForm();
+  	this.formValidation();
+    this.addedCountry();
+    this.loadAllCountry();
+  },
+
+  resetCountryForm: function() {
+  	$('#countryContainer #addCountryButton').unbind('click');
+  	$('#countryContainer #addCountryButton').on('click', function(e) {
+  		e.preventDefault();
+  		$('#countryContainer #countryForm #title').val("");
+  		$('#countryContainer #countryForm #code').val("");
+  	});
+  },
+
+ 	formValidation: function() {
+ 		$("#countryContainer #countryForm").validate({
+      rules: {
+        country_title: "required",
+        country_code: "required"
+      },
+      messages: {
+        country_title: "Please enter Country Name",
+        country_code: "Please enter Country Code"
+      }
+    });
+  },
+
+  addedCountry: function() {
+  	$('#countryContainer #countryForm #submitCountry').unbind('click');
+  	$('#countryContainer #countryForm #submitCountry').on('click', function(e) {
+  		e.preventDefault();
+  		params = {};
+  		var active = "";
+  		params['name'] = $('#countryContainer #countryForm #title').val();
+  		params['code'] = $('#countryContainer #countryForm #code').val().toUpperCase();
+
+  		if ($('#countryContainer #countryForm #status').is(':checked')) {
+  			active = true;
+  		}
+  		else
+  		{
+  			active = false;
+  		}
+  		params['active'] = active;
+  		if($("#countryContainer #countryForm").valid()) {
+	  		$.ajax({
+	        url: '/admin/countries/',
+	        type: 'POST',
+	        data: {country: params},
+	        format: 'JSON',
+	        success: function (data, textStatus, jqXHR) {
+	        	var countryData = data.country;
+	          $('#countryContainer #countryTable').bootstrapTable('insertRow', {index: 0, row: {
+	              id : countryData.id,
+	              name : countryData.name,
+	              code : countryData.code,
+	              active : countryData.active
+            	}
+          	});
+
+            $('#countryContainer #countryModal').modal("hide");
+	        },
+	        error: function (jqXHR, textStatus, errorThrown) {
+	         
+	        }
+	      });
+	    }
+  	});
+  },
+ 
+  loadAllCountry: function() {
+  	$.ajax({
+      url: '/admin/countries/',
+      type: 'GET',
+      format: 'JSON',
+      success: function (data, textStatus, jqXHR) {
+      	var countryData = data.countries
+        $('#countryContainer #countryTable').bootstrapTable('load', countryData);
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+       
+      }
+    });
+  }
+}
+;
+var LD = LD || {};
+
 LD.LoggedIn = function () {
   this.initialize();
 }
@@ -11600,12 +11694,14 @@ LD.LoggedIn.prototype= {
     $('.main_container .menu_section #adminCountryClick').click(function(){
       self.hideAllContainer();
       $('.content #countryContainer').removeClass('hidden');
+      var country = new LD.Country();
     });
 
     $('.main_container .menu_section #adminStateClick').unbind();
     $('.main_container .menu_section #adminStateClick').click(function(){
       self.hideAllContainer();
       $('.content #stateContainer').removeClass('hidden');
+      var state = new LD.State();
     });
 
     $('.main_container .menu_section #adminCityClick').unbind();
@@ -11616,6 +11712,101 @@ LD.LoggedIn.prototype= {
   }
 }
 ;
+var LD = LD || {};
+
+LD.State = function () {
+  this.initialize();
+}
+LD.State.prototype= {
+  initialize:function() {
+  	this.loadCountryData();
+  	this.addedState();
+  	this.loadAllState();
+  },
+
+  loadCountryData: function() {
+  	$.ajax({
+	    url: '/admin/countries/',
+	    type: 'GET',
+	    format: 'JSON',
+	    success: function (data, textStatus, jqXHR) {
+	    	var countryData = data.countries;
+	    	$('#stateContainer #stateForm #selectCountry').children().not("option[value='']").remove();
+        $.each(countryData, function (i, item) {
+          var option_string = "<option value=" + item.id +">" + item.name + "</option>";
+          $('#stateContainer #stateForm #selectCountry').append(option_string);
+        });
+	    },
+	    error: function (jqXHR, textStatus, errorThrown) {
+	     
+	    }
+	  });
+  },
+
+  addedState: function() {
+  	$('#stateContainer #stateForm #submitState').unbind('click');
+  	$('#stateContainer #stateForm #submitState').on('click', function(e) {
+  		e.preventDefault();
+  		params = {};
+  		var active = "";
+  		params['name'] = $('#stateContainer #stateForm #title').val();
+  		params['code'] = $('#stateContainer #stateForm #code').val().toUpperCase();
+  		params['country_id'] = $('#stateContainer #stateForm #selectCountry').val().toUpperCase();
+
+  		if ($('#stateContainer #stateForm #status').is(':checked')) {
+  			active = true;
+  		}
+  		else
+  		{
+  			active = false;
+  		}
+  		params['active'] = active;
+  		if($("#stateContainer #stateForm").valid()) {
+	  		$.ajax({
+	        url: '/admin/states/',
+	        type: 'POST',
+	        data: {state: params},
+	        format: 'JSON',
+	        success: function (data, textStatus, jqXHR) {
+	        	var stateData = data.state;
+	          $('#stateContainer #stateTable').bootstrapTable('insertRow', {index: 0, row: {
+	              name : stateData.name,
+	              code : stateData.code,
+	              country_name : stateData.country_id,
+	              active : stateData.active
+            	}
+          	});
+
+            $('#stateContainer #stateModal').modal("hide");
+	        },
+	        error: function (jqXHR, textStatus, errorThrown) {
+	         
+	        }
+	      });
+	    }
+  	});
+  },
+
+  loadAllState: function() {
+  	$.ajax({
+      url: '/admin/states/by_country/',
+      type: 'GET',
+      data: {country_id: 1},
+      format: 'JSON',
+      success: function (data, textStatus, jqXHR) {
+      	var stateData = data.states
+        $('#stateContainer #stateTable').bootstrapTable('load', stateData);
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+       
+      }
+    });
+  }
+}
+;
+
+
+
 /**
  * @author zhixin wen <wenzhixin2010@gmail.com>
  * version: 1.11.1
