@@ -1,6 +1,6 @@
 class Admin::StatesController < ApplicationController
   def index_by_country
-    render json: {states:JSON.parse(State.of_country(params[:country_id]).to_json(except: [:created_at, :updated_at]))}, status: :ok
+    render json: {states:JSON.parse(State.of_country(params[:country_id]).to_json(except: [:country_id, :created_at, :updated_at]))}, status: :ok
   end
 
   def show
@@ -14,7 +14,7 @@ class Admin::StatesController < ApplicationController
   def create
     begin
       State.transaction do
-        render :json => {state: JSON.parse(State.create!(state_params).to_json(except: [:created_at, :updated_at]))}, :status => :ok
+        render :json => {state: JSON.parse(State.create!(state_params).to_json(except: [:country_id, :created_at, :updated_at]))}, :status => :ok
       end
     rescue => e
       render :json => {error: e.message}, :status => :unprocessable_entity
@@ -26,7 +26,7 @@ class Admin::StatesController < ApplicationController
       state = State.find(params[:id])
       State.transaction do
         state.update!(state_params)
-        render :json => {state: JSON.parse(state.to_json(except: [:created_at, :updated_at]))}, :status => :ok
+        render :json => {state: JSON.parse(state.to_json(except: [:country_id, :created_at, :updated_at]))}, :status => :ok
       end
     rescue => e
       render :json => {error: e.message}, :status => :unprocessable_entity

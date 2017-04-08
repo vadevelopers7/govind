@@ -12,7 +12,7 @@ RSpec.describe Admin::CitiesController, type: :controller do
       it "should render all cities of a state" do
         city = FactoryGirl.create(:city, state_id: @state.id)
         get :index_by_state, state_id: city.state_id
-        expect(JSON.parse(response.body)["cities"][0]).to eq("id" => city.id, "state_id" => city.state_id, "name" => city.name, "code" => city.code, "min_shipping_charge" => city.min_shipping_charge.to_s, "active" => city.active)
+        expect(JSON.parse(response.body)["cities"][0]).to eq("id" => city.id, "name" => city.name, "code" => city.code, "min_shipping_charge" => city.min_shipping_charge.to_s, "active" => city.active)
         expect(response).to be_ok
       end
     end
@@ -49,7 +49,7 @@ RSpec.describe Admin::CitiesController, type: :controller do
     context "with valid params" do
       it "should create city" do
         post :create, city: FactoryGirl.attributes_for(:city, state_id: @state.id)
-        expect(JSON.parse(response.body)["city"].keys).to contain_exactly("id", "state_id", "name", "code", "active", "min_shipping_charge")
+        expect(JSON.parse(response.body)["city"].keys).to contain_exactly("id", "name", "code", "active", "min_shipping_charge")
         expect(response).to be_ok
       end
       it "should increase City table count by one" do

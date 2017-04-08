@@ -49,7 +49,7 @@ RSpec.describe Admin::CategoriesController, type: :controller do
     context "with valid params" do
       it "should create category" do
         post :create, category: FactoryGirl.attributes_for(:category, city_id: @city.id)
-        expect(JSON.parse(response.body)["category"].keys).to contain_exactly("id", "city_id", "sequence_id", "name", "icon", "description", "display_home_status", "meta_title", "meta_keyword", "meta_description", "active")
+        expect(JSON.parse(response.body)["category"].keys).to contain_exactly("id", "sequence_id", "name", "active")
         expect(response).to be_ok
       end
       it "should increase Category table count by one" do

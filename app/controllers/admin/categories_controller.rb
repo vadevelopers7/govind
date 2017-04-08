@@ -14,7 +14,7 @@ class Admin::CategoriesController < ApplicationController
   def create
     begin
       Category.transaction do
-        render :json => {category: JSON.parse(Category.create!(category_params).to_json(except: [:created_at, :updated_at]))}, :status => :ok
+        render :json => {category: JSON.parse(Category.create!(category_params).to_json(only: [:id, :sequence_id, :name, :active]))}, :status => :ok
       end
     rescue => e
       render :json => {error: e.message}, :status => :unprocessable_entity
@@ -26,7 +26,7 @@ class Admin::CategoriesController < ApplicationController
       category = Category.find(params[:id])
       Category.transaction do
         category.update!(category_params)
-        render :json => {category: JSON.parse(category.to_json(except: [:created_at, :updated_at]))}, :status => :ok
+        render :json => {category: JSON.parse(category.to_json(only: [:id, :sequence_id, :name, :active]))}, :status => :ok
       end
     rescue => e
       render :json => {error: e.message}, :status => :unprocessable_entity

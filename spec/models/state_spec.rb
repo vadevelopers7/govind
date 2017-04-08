@@ -47,7 +47,7 @@ RSpec.describe State, type: :model do
         state = FactoryGirl.create(:state, country_id: @country.id)
         city = FactoryGirl.create(:city, state_id: state.id)
         city1 = FactoryGirl.create(:city, state_id: state.id, name: "Jaipur", code: "JP")
-        expect(state.cities).to eq([city, city1])
+        expect(state.cities).to eq([city1, city])
       end
     end
   end
