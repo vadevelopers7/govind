@@ -37,9 +37,18 @@ LD.Country.prototype= {
   	$('#countryContainer #countryForm #submitCountry').on('click', function(e) {
   		e.preventDefault();
   		params = {};
+  		var active = "";
   		params['name'] = $('#countryContainer #countryForm #title').val();
   		params['code'] = $('#countryContainer #countryForm #code').val().toUpperCase();
-  		params['active'] = $('#countryContainer #countryForm #status').val();
+
+  		if ($('#countryContainer #countryForm #status').is(':checked')) {
+  			active = true;
+  		}
+  		else
+  		{
+  			active = false;
+  		}
+  		params['active'] = active;
   		if($("#countryContainer #countryForm").valid()) {
 	  		$.ajax({
 	        url: '/admin/countries/',
