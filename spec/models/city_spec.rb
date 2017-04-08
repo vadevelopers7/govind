@@ -23,6 +23,16 @@ RSpec.describe City, type: :model do
     end
   end
 
+  describe "has_many" do
+    context "categories" do
+      it "should return an array of categories in the current city" do
+        city = FactoryGirl.create(:city, state_id: @state.id)
+        category = FactoryGirl.create(:category, city_id: city.id)
+        expect(city.categories).to eq([category])
+      end
+    end
+  end
+
   describe "validates_uniqueness_of" do
     context "name" do
       it "should not valid if same city the in same state" do
