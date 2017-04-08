@@ -29,6 +29,7 @@ LD.LoggedIn.prototype= {
     $('.main_container .menu_section #adminCountryClick').click(function(){
       self.hideAllContainer();
       $('.content #countryContainer').removeClass('hidden');
+      var country = new LD.Country();
     });
 
     $('.main_container .menu_section #adminStateClick').unbind();
