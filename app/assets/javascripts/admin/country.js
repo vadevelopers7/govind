@@ -5,7 +5,17 @@ LD.Country = function () {
 }
 LD.Country.prototype= {
   initialize:function() {
+  	this.resetCountryForm();
     this.addedCountry();
+  },
+
+  resetCountryForm: function() {
+  	$('#countryContainer #addCountryButton').unbind('click');
+  	$('#countryContainer #addCountryButton').on('click', function(e) {
+  		e.preventDefault();
+  		$('#countryContainer #countryForm #title').val("");
+  		$('#countryContainer #countryForm #code').val("");
+  	});
   },
 
   addedCountry: function() {
