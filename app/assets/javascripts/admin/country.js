@@ -80,11 +80,10 @@ LD.Country.prototype= {
       type: 'GET',
       format: 'JSON',
       success: function (data, textStatus, jqXHR) {
-      	console.log(data.countries);
       	var mydata = data.countries
         $('#countryContainer #countryTable').bootstrapTable({
-        	data: mydata
-    		});
+          data: mydata
+        });
       },
       error: function (jqXHR, textStatus, errorThrown) {
        
