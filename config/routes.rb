@@ -12,6 +12,9 @@ Rails.application.routes.draw do
 
     resources :cities, except: [:index, :new, :edit]
     get 'cities/by_state', to: 'cities#index_by_state'
+
+    resources :categories, except: [:index, :new, :edit]
+    get 'categories/by_city', to: 'categories#index_by_city'
   end
   # admin panel routes end
 
