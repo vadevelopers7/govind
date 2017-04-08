@@ -7,6 +7,7 @@ LD.State.prototype= {
   initialize:function() {
   	this.loadCountryData();
   	this.addedState();
+  	this.loadAllState();
   },
 
   loadCountryData: function() {
@@ -70,5 +71,21 @@ LD.State.prototype= {
 	      });
 	    }
   	});
+  },
+
+  loadAllState: function() {
+  	$.ajax({
+      url: '/admin/states/by_country/',
+      type: 'GET',
+      data: {country_id: 1},
+      format: 'JSON',
+      success: function (data, textStatus, jqXHR) {
+      	var stateData = data.states
+        $('#stateContainer #stateTable').bootstrapTable('load', stateData);
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+       
+      }
+    });
   }
 }
