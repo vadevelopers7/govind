@@ -65,6 +65,8 @@ LD.Country.prototype= {
 	              active : countryData.active
             	}
           	});
+
+            $('#countryContainer #countryModal').modal("hide");
 	        },
 	        error: function (jqXHR, textStatus, errorThrown) {
 	         
