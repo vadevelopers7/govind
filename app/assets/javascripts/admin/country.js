@@ -8,6 +8,7 @@ LD.Country.prototype= {
   	this.resetCountryForm();
   	this.formValidation();
     this.addedCountry();
+    this.loadAllCountry();
   },
 
   resetCountryForm: function() {
@@ -64,5 +65,23 @@ LD.Country.prototype= {
 	      });
 	    }
   	});
+  },
+
+  loadAllCountry: function() {
+  	$.ajax({
+      url: '/admin/countries/',
+      type: 'GET',
+      format: 'JSON',
+      success: function (data, textStatus, jqXHR) {
+      	console.log(data.countries);
+      	var mydata = data.countries
+        $('#countryContainer #countryTable').bootstrapTable({
+        	data: mydata
+    		});
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+       
+      }
+    });
   }
 }

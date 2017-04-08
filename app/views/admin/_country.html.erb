@@ -34,27 +34,18 @@
     </div>
 
     <div class="x_content">
-			<table class="table" data-toggle="table"
-			 	data-url="https://api.github.com/users/wenzhixin/repos"
+			<table id="countryTable" class="table"
 			 	data-query-params="queryParams"
 			 	data-pagination="true"
 			 	data-search="true" data-striped="true">
 				<thead>
 				  <tr>
+            <th data-field="id">S.No.</th>
 				    <th data-field="name">Title</th>
-				    <th data-field="stargazers_count">Code</th>
-				    <th data-field="forks_count">Status</th>
-				    <th data-field="description">Action</th>
+				    <th data-field="code">Code</th>
+				    <th data-field="active">Status</th>
 				  </tr>
 				</thead>
-        <tbody>
-          <tr>
-            <td>India</td>
-            <td>IND</td>
-            <td>True</td>
-            <td>Edit / Delete</td>
-          </tr>
-        </tbody>
 			</table>
 
 
