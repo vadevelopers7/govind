@@ -57,7 +57,14 @@ LD.Country.prototype= {
 	        data: {country: params},
 	        format: 'JSON',
 	        success: function (data, textStatus, jqXHR) {
-	          console.log(data);
+	        	var mydata = data.country;
+	          $('#countryContainer #countryTable').bootstrapTable('insertRow', {index: 0, row: {
+	              id : mydata.id,
+	              name : mydata.name,
+	              code : mydata.code,
+	              active : mydata.active
+            	}
+          	});
 	        },
 	        error: function (jqXHR, textStatus, errorThrown) {
 	         
@@ -66,7 +73,7 @@ LD.Country.prototype= {
 	    }
   	});
   },
-
+ 
   loadAllCountry: function() {
   	$.ajax({
       url: '/admin/countries/',
