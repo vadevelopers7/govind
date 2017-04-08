@@ -36,6 +36,7 @@ LD.LoggedIn.prototype= {
     $('.main_container .menu_section #adminStateClick').click(function(){
       self.hideAllContainer();
       $('.content #stateContainer').removeClass('hidden');
+      var state = new LD.State();
     });
 
     $('.main_container .menu_section #adminCityClick').unbind();
