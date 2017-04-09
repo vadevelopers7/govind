@@ -2,8 +2,8 @@ FactoryGirl.define do
   factory :main_category do
     city nil
     sequence_id 1
-    name "MyString"
-    icon "MyString"
+    name "Electronics"
+    icon "fa-electricity"
     active true
   end
 end

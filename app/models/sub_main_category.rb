@@ -1,5 +1,6 @@
 class SubMainCategory < ActiveRecord::Base
   belongs_to :main_category
+  has_many :categories
   validates_presence_of :main_category_id, :sequence_id, :name
   validates_numericality_of :main_category_id, :sequence_id
   validates_uniqueness_of :name, :sequence_id, case_sensitive: false, scope: :main_category_id, message: "already exist."

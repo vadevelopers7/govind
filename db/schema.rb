@@ -11,10 +11,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170409051909) do
+ActiveRecord::Schema.define(version: 20170409084228) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "categories", force: :cascade do |t|
+    t.integer  "sub_main_category_id"
+    t.integer  "sequence_id",                         null: false
+    t.string   "name",                                null: false
+    t.text     "description"
+    t.boolean  "display_home_status",  default: true
+    t.string   "meta_title"
+    t.string   "meta_keyword"
+    t.text     "meta_description"
+    t.boolean  "active",               default: true
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+  end
+
+  add_index "categories", ["sub_main_category_id"], name: "index_categories_on_sub_main_category_id", using: :btree
 
   create_table "cities", force: :cascade do |t|
     t.integer  "state_id"
@@ -70,6 +86,7 @@ ActiveRecord::Schema.define(version: 20170409051909) do
 
   add_index "sub_main_categories", ["main_category_id"], name: "index_sub_main_categories_on_main_category_id", using: :btree
 
+  add_foreign_key "categories", "sub_main_categories"
   add_foreign_key "cities", "states"
   add_foreign_key "main_categories", "cities"
   add_foreign_key "states", "countries"
