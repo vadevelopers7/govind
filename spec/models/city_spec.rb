@@ -25,10 +25,10 @@ RSpec.describe City, type: :model do
 
   describe "has_many" do
     context "categories" do
-      it "should return an array of categories in the current city" do
+      it "should return an array of main_categories in the current city" do
         city = FactoryGirl.create(:city, state_id: @state.id)
-        category = FactoryGirl.create(:category, city_id: city.id)
-        expect(city.categories).to eq([category])
+        main_category = FactoryGirl.create(:main_category, city_id: city.id)
+        expect(city.main_categories).to eq([main_category])
       end
     end
   end

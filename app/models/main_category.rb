@@ -1,4 +1,4 @@
-class Category < ActiveRecord::Base
+class MainCategory < ActiveRecord::Base
   belongs_to :city
   validates_presence_of :city_id, :sequence_id, :name, :icon
   validates_numericality_of :city_id, :sequence_id
