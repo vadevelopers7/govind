@@ -4,7 +4,6 @@ FactoryGirl.define do
     sequence_id 1
     name "MyString"
     icon "MyString"
-    display_home_status true
     active true
   end
 end

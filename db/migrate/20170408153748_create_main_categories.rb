@@ -5,7 +5,6 @@ class CreateMainCategories < ActiveRecord::Migration
       t.integer :sequence_id, null: false
       t.string :name, null: false
       t.string :icon, null: false
-      t.boolean :display_home_status, default: true
       t.boolean :active, default: true
 
       t.timestamps null: false

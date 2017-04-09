@@ -12,7 +12,8 @@ RSpec.describe Admin::MainCategoriesController, type: :controller do
       it "should render all main_categories of a city" do
         main_category = FactoryGirl.create(:main_category, city_id: @city.id)
         get :index_by_city, city_id: main_category.city_id
-        expect(JSON.parse(response.body)["main_categories"][0]).to eq("id" => main_category.id, "sequence_id" => main_category.sequence_id, "name" => main_category.name, "active" => main_category.active, "icon" => main_category.icon, "display_home_status" => main_category.display_home_status)
+        expect(JSON.parse(response.body)["main_categories"][0]).to eq("id" => main_category.id, "sequence_id" => main_category.sequence_id, "name" => main_category.name, "active" => main_category.active, "icon" => main_category.icon)
+        expect(JSON.parse(response.body)["main_categories"][0].keys).to contain_exactly("id", "sequence_id", "name", "icon", "active")
         expect(response).to be_ok
       end
     end
@@ -32,7 +33,9 @@ RSpec.describe Admin::MainCategoriesController, type: :controller do
     context "with valid params" do
       it "should render a specific main_category detail" do
         get :show, id: @main_category.id
-        expect(JSON.parse(response.body)["main_category"]).to eq("id" => @main_category.id, "city_id" => @main_category.city_id, "sequence_id" => @main_category.sequence_id, "name" => @main_category.name, "icon" => @main_category.icon, "display_home_status" => @main_category.display_home_status, "active" => @main_category.active)
+        expect(JSON.parse(response.body)["main_category"]).to eq("id" => @main_category.id, "city_id" => @main_category.city_id, "sequence_id" => @main_category.sequence_id, "name" => @main_category.name, "icon" => @main_category.icon, "active" => @main_category.active)
+        JSON.parse(response.body)["main_category"].keys
+        expect(JSON.parse(response.body)["main_category"].keys).to contain_exactly("id", "city_id", "sequence_id", "name", "icon", "active")
         expect(response).to be_ok
       end
     end
@@ -49,7 +52,7 @@ RSpec.describe Admin::MainCategoriesController, type: :controller do
     context "with valid params" do
       it "should create main_category" do
         post :create, main_category: FactoryGirl.attributes_for(:main_category, city_id: @city.id)
-        expect(JSON.parse(response.body)["main_category"].keys).to contain_exactly("id", "sequence_id", "name", "active", "icon", "display_home_status")
+        expect(JSON.parse(response.body)["main_category"].keys).to contain_exactly("id", "sequence_id", "name", "active", "icon")
         expect(response).to be_ok
       end
       it "should increase MainCategory table count by one" do
