@@ -15,6 +15,9 @@ Rails.application.routes.draw do
 
     get 'main_categories/by_city', to: 'main_categories#index_by_city'
     resources :main_categories, except: [:index, :new, :edit]
+
+    get 'sub_main_categories/by_main', to: 'sub_main_categories#index_by_main_category'
+    resources :sub_main_categories, except: [:index, :new, :edit]
   end
   # admin panel routes end
 

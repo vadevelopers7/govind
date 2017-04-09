@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170408153748) do
+ActiveRecord::Schema.define(version: 20170409051909) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,13 +38,12 @@ ActiveRecord::Schema.define(version: 20170408153748) do
 
   create_table "main_categories", force: :cascade do |t|
     t.integer  "city_id"
-    t.integer  "sequence_id",                        null: false
-    t.string   "name",                               null: false
-    t.string   "icon",                               null: false
-    t.boolean  "display_home_status", default: true
-    t.boolean  "active",              default: true
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
+    t.integer  "sequence_id",                null: false
+    t.string   "name",                       null: false
+    t.string   "icon",                       null: false
+    t.boolean  "active",      default: true
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   add_index "main_categories", ["city_id"], name: "index_main_categories_on_city_id", using: :btree
@@ -60,7 +59,19 @@ ActiveRecord::Schema.define(version: 20170408153748) do
 
   add_index "states", ["country_id"], name: "index_states_on_country_id", using: :btree
 
+  create_table "sub_main_categories", force: :cascade do |t|
+    t.integer  "main_category_id"
+    t.integer  "sequence_id",                     null: false
+    t.string   "name",                            null: false
+    t.boolean  "active",           default: true
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+  end
+
+  add_index "sub_main_categories", ["main_category_id"], name: "index_sub_main_categories_on_main_category_id", using: :btree
+
   add_foreign_key "cities", "states"
   add_foreign_key "main_categories", "cities"
   add_foreign_key "states", "countries"
+  add_foreign_key "sub_main_categories", "main_categories"
 end

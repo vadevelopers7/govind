@@ -34,7 +34,6 @@ RSpec.describe Admin::MainCategoriesController, type: :controller do
       it "should render a specific main_category detail" do
         get :show, id: @main_category.id
         expect(JSON.parse(response.body)["main_category"]).to eq("id" => @main_category.id, "city_id" => @main_category.city_id, "sequence_id" => @main_category.sequence_id, "name" => @main_category.name, "icon" => @main_category.icon, "active" => @main_category.active)
-        JSON.parse(response.body)["main_category"].keys
         expect(JSON.parse(response.body)["main_category"].keys).to contain_exactly("id", "city_id", "sequence_id", "name", "icon", "active")
         expect(response).to be_ok
       end
