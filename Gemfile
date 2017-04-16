@@ -13,5 +13,6 @@ group :development, :test do
   gem 'simplecov'
 end
 
+gem 'devise'
 gem 'jquery-rails'
 gem 'turbolinks'
