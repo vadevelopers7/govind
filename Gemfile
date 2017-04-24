@@ -7,6 +7,7 @@ gem 'activerecord-postgresql-adapter'
 group :development, :test do
   gem 'awesome_print'
   gem 'database_cleaner'
+  gem 'dotenv-rails'
   gem 'factory_girl_rails'
   gem 'rspec-rails'
   gem 'shoulda-matchers'
