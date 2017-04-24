@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
 
-  devise_for :users
+  # devise_for :users
   root :to => "admin/dashboard#index"
   # admin panel routes start
   namespace(:admin) do |admin|
     get '', to: 'dashboard#index'
+
+    devise_for :users, :controllers => {:registrations => "admin/registrations"}
 
     resources :countries, except: [:new, :edit]
 
