@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170424114927) do
+ActiveRecord::Schema.define(version: 20170424180858) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,19 @@ ActiveRecord::Schema.define(version: 20170424114927) do
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
   end
+
+  create_table "devise_multiple_token_auth_devices", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "auth_token", null: false
+    t.string   "platform"
+    t.string   "push_token"
+    t.datetime "expires_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "devise_multiple_token_auth_devices", ["auth_token"], name: "index_devise_multiple_token_auth_devices_on_auth_token", unique: true, using: :btree
+  add_index "devise_multiple_token_auth_devices", ["user_id"], name: "index_devise_multiple_token_auth_devices_on_user_id", using: :btree
 
   create_table "main_categories", force: :cascade do |t|
     t.integer  "city_id"

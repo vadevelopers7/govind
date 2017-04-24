@@ -1,4 +1,7 @@
 class User < ActiveRecord::Base
+  # Allows token auth devices to be created by calling user.create_device
+  devise_token_authenticatable
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,

@@ -15,5 +15,6 @@ group :development, :test do
 end
 
 gem 'devise'
+gem 'devise_multiple_token_auth'
 gem 'jquery-rails'
 gem 'turbolinks'
