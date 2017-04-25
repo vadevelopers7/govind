@@ -1,6 +1,7 @@
 class LoveyDovyMailer < ActionMailer::Base
   default from: '"LoveyDovy" <no_reply@loveydovy.com>'
 
+  # http://guides.rubyonrails.org/action_mailer_basics.html
   def send_signup_email(user)
     mail( :to => user.email,
           content_type: "text/html",
