@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   validates_inclusion_of :role, in: ['shopper', 'retailer', 'admin']
-  after_create :send_welcome_email
+  after_create :send_registration_mail
 
   def is_admin?
     self.role == "admin"
@@ -21,8 +21,8 @@ class User < ActiveRecord::Base
   end
 
   private
-  def send_welcome_email
-    mailer = LoveyDovyMailer.send_signup_email(self)
+  def send_registration_mail
+    mailer = EmailNotification.signup(self)
     mailer.deliver_now
   end
 end
