@@ -4,7 +4,7 @@ RSpec.describe User, type: :model do
   context 'validations'do
     ["email", "password", "role"].each do |field|
       it "should be invalid if #{field} is not present"do
-        FactoryGirl.build(:user,"#{field}".to_sym =>nil).should_not be_valid
+        expect(FactoryGirl.build(:user,"#{field}".to_sym =>nil)).not_to be_valid
       end
     end
   end
