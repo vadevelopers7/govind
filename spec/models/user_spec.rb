@@ -9,6 +9,30 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe "validates" do
+    context "mobile" do
+      context "length of mobile" do
+        it "should be valid if mobile no is of 10 digits" do
+          expect(FactoryGirl.create(:user, mobile: "9876543210")).to be_valid
+        end
+        it "should raise error if mobile number is less than 10 digits" do
+          expect{FactoryGirl.create(:user, mobile: "12345")}.to raise_error('Validation failed: Mobile number should be of 10 digits.')
+        end
+        it "should raise error if mobile number is greater than 10 digits" do
+          expect{FactoryGirl.create(:user, mobile: "12345678901")}.to raise_error('Validation failed: Mobile number should be of 10 digits.')
+        end
+      end
+      context "numericality of mobile" do
+        it "should be valid if mobile number is numerical" do
+          expect(FactoryGirl.create(:user, mobile: "9876543210")).to be_valid
+        end
+        it "should raise error if mobile number is not numerical" do
+          expect{FactoryGirl.create(:user, mobile: "ABCD1234EF")}.to raise_error('Validation failed: Mobile number is invalid.')
+        end
+      end
+    end
+  end
+
   describe "validates_inclusion_of" do
     it { is_expected.to validate_inclusion_of(:role).in_array(['shopper', 'retailer', 'admin']) }
   end

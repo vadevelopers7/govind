@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  validates :mobile, numericality: { only_integer: true, message: "number is invalid." }, length: { is: 10, message: "number should be of 10 digits." }
   validates_inclusion_of :role, in: ['shopper', 'retailer', 'admin']
   after_create :send_registration_mail
 
