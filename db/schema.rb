@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170528152952) do
+ActiveRecord::Schema.define(version: 20170528150528) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,11 +55,11 @@ ActiveRecord::Schema.define(version: 20170528152952) do
   create_table "devise_multiple_token_auth_devices", force: :cascade do |t|
     t.integer  "user_id"
     t.string   "auth_token", null: false
+    t.string   "platform"
+    t.string   "push_token"
     t.datetime "expires_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string   "platform"
-    t.string   "push_token"
   end
 
   add_index "devise_multiple_token_auth_devices", ["auth_token"], name: "index_devise_multiple_token_auth_devices_on_auth_token", unique: true, using: :btree
@@ -117,21 +117,12 @@ ActiveRecord::Schema.define(version: 20170528152952) do
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
     t.inet     "last_sign_in_ip"
-    t.string   "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string   "unconfirmed_email"
-    t.integer  "failed_attempts",        default: 0,     null: false
-    t.string   "unlock_token"
-    t.datetime "locked_at"
     t.datetime "created_at",                             null: false
     t.datetime "updated_at",                             null: false
   end
 
-  add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
-  add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
   add_index "users", ["username"], name: "index_users_on_username", unique: true, using: :btree
 
   add_foreign_key "categories", "sub_main_categories"
