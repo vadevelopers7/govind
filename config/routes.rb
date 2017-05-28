@@ -6,7 +6,8 @@ Rails.application.routes.draw do
   namespace(:admin) do |admin|
     get '', to: 'dashboard#index'
 
-    devise_for :users, :controllers => {:registrations => "admin/registrations"}
+    post 'login' => 'sessions#login'
+    delete 'logout'=>'sessions#logout'
 
     resources :countries, except: [:new, :edit]
 
