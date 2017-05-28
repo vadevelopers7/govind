@@ -16,5 +16,6 @@ end
 
 gem 'devise'
 gem 'devise_multiple_token_auth'
+gem 'highline'
 gem 'jquery-rails'
 gem 'turbolinks'
