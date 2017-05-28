@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   namespace(:admin) do |admin|
     get '', to: 'dashboard#index'
 
+    devise_for :users
     post 'login' => 'sessions#login'
     delete 'logout'=>'sessions#logout'
 
