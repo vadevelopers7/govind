@@ -5,10 +5,43 @@ LD.Country = function () {
 }
 LD.Country.prototype= {
   initialize:function() {
+    this.loadAllCountry();
   	this.resetCountryForm();
   	this.formValidation();
     this.addedCountry();
-    this.loadAllCountry();
+  },
+
+  loadAllCountry: function(data) {
+    var self = this;
+    $.ajax({
+      url: '/admin/countries/',
+      type: 'GET',
+      format: 'JSON',
+      success: function (data, textStatus, jqXHR) {
+        countryData = data.countries;
+        self.loadCountryIntoDataTable(countryData);
+      },
+      error: function (jqXHR, textStatus, errorThrown) {
+       
+      }
+    });
+  },
+
+  loadCountryIntoDataTable: function(data) {
+    var table = $('#countryContainer #countryTable').DataTable();
+      table.clear().draw();
+      $.each(data, function(i,item){
+        i = i+1;
+        table.row.add( $(
+           '<tr>'+
+            '<td>'+i+'</td>'+
+            '<td>'+item.name+'</td>'+
+            '<td>'+item.code+'</td>'+
+            '<td>'+item.active+'</td>'+
+            '<td data-user-id ='+item.id+'><a class="btn btn-info btn-sm" id="editUser">Edit</a> &nbsp;&nbsp;<a class="btn btn-danger btn-sm" id="deleteUser">Delete</a></td>'+
+            '<tr>'
+        )[0]).draw();
+      });
   },
 
   resetCountryForm: function() {
@@ -17,10 +50,14 @@ LD.Country.prototype= {
   		e.preventDefault();
   		$('#countryContainer #countryForm #title').val("");
   		$('#countryContainer #countryForm #code').val("");
+      $('#countryContainer #countryForm label.error').hide();
+
   	});
   },
 
  	formValidation: function() {
+    t = "ajay";
+    console.log(t);
  		$("#countryContainer #countryForm").validate({
       rules: {
         country_title: "required",
@@ -34,6 +71,7 @@ LD.Country.prototype= {
   },
 
   addedCountry: function() {
+    var self = this;
   	$('#countryContainer #countryForm #submitCountry').unbind('click');
   	$('#countryContainer #countryForm #submitCountry').on('click', function(e) {
   		e.preventDefault();
@@ -57,15 +95,8 @@ LD.Country.prototype= {
 	        data: {country: params},
 	        format: 'JSON',
 	        success: function (data, textStatus, jqXHR) {
-	        	var countryData = data.country;
-	          $('#countryContainer #countryTable').bootstrapTable('insertRow', {index: 0, row: {
-	              id : countryData.id,
-	              name : countryData.name,
-	              code : countryData.code,
-	              active : countryData.active
-            	}
-          	});
-
+            countryData.splice(0,0,data.country);
+            self.loadCountryIntoDataTable(countryData);
             $('#countryContainer #countryModal').modal("hide");
 	        },
 	        error: function (jqXHR, textStatus, errorThrown) {
@@ -74,20 +105,5 @@ LD.Country.prototype= {
 	      });
 	    }
   	});
-  },
- 
-  loadAllCountry: function() {
-  	$.ajax({
-      url: '/admin/countries/',
-      type: 'GET',
-      format: 'JSON',
-      success: function (data, textStatus, jqXHR) {
-      	var countryData = data.countries
-        $('#countryContainer #countryTable').bootstrapTable('load', countryData);
-      },
-      error: function (jqXHR, textStatus, errorThrown) {
-       
-      }
-    });
   }
 }
