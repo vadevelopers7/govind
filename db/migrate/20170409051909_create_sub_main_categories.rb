@@ -9,5 +9,6 @@ class CreateSubMainCategories < ActiveRecord::Migration
       t.timestamps null: false
     end
     add_foreign_key :sub_main_categories, :main_categories
+    add_index :sub_main_categories, :name
   end
 end

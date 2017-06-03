@@ -9,5 +9,7 @@ class CreateStates < ActiveRecord::Migration
       t.timestamps null: false
     end
     add_foreign_key :states, :countries
+    add_index :states, :name, unique: true
+    add_index :states, :code, unique: true
   end
 end

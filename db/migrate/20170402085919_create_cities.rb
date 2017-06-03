@@ -10,5 +10,7 @@ class CreateCities < ActiveRecord::Migration
       t.timestamps null: false
     end
     add_foreign_key :cities, :states
+    add_index :cities, :name, unique: true
+    add_index :cities, :code, unique: true
   end
 end
