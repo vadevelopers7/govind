@@ -89,7 +89,7 @@ LD.State.prototype= {
                 name: item.name,
                 code: item.code,
                 active: item.active,
-                action: "<a href='#' class='label label-warning'>Edit</a>&nbsp;&nbsp;&nbsp;<a href='#' class='label label-danger'>Delete</a>"
+                action: "<a href='#' class='label label-warning' state_id="+item.id+">Edit</a>&nbsp;&nbsp;&nbsp;<a href='#' class='label label-danger' state_id="+item.id+">Delete</a>"
             }]
            });
           serail_number++;
