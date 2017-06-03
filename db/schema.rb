@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170528150528) do
+ActiveRecord::Schema.define(version: 20170603120330) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 20170528150528) do
     t.datetime "updated_at",                          null: false
   end
 
+  add_index "categories", ["name"], name: "index_categories_on_name", using: :btree
   add_index "categories", ["sub_main_category_id"], name: "index_categories_on_sub_main_category_id", using: :btree
 
   create_table "cities", force: :cascade do |t|
@@ -42,6 +43,8 @@ ActiveRecord::Schema.define(version: 20170528150528) do
     t.datetime "updated_at",                                                  null: false
   end
 
+  add_index "cities", ["code"], name: "index_cities_on_code", unique: true, using: :btree
+  add_index "cities", ["name"], name: "index_cities_on_name", unique: true, using: :btree
   add_index "cities", ["state_id"], name: "index_cities_on_state_id", using: :btree
 
   create_table "countries", force: :cascade do |t|
@@ -51,6 +54,9 @@ ActiveRecord::Schema.define(version: 20170528150528) do
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
   end
+
+  add_index "countries", ["code"], name: "index_countries_on_code", unique: true, using: :btree
+  add_index "countries", ["name"], name: "index_countries_on_name", unique: true, using: :btree
 
   create_table "devise_multiple_token_auth_devices", force: :cascade do |t|
     t.integer  "user_id"
@@ -65,6 +71,34 @@ ActiveRecord::Schema.define(version: 20170528150528) do
   add_index "devise_multiple_token_auth_devices", ["auth_token"], name: "index_devise_multiple_token_auth_devices_on_auth_token", unique: true, using: :btree
   add_index "devise_multiple_token_auth_devices", ["user_id"], name: "index_devise_multiple_token_auth_devices_on_user_id", using: :btree
 
+  create_table "items", force: :cascade do |t|
+    t.integer  "category_id"
+    t.integer  "user_id"
+    t.string   "name",                                                      null: false
+    t.string   "model_no"
+    t.decimal  "price",             precision: 12, scale: 2, default: 0.0,  null: false
+    t.decimal  "discount",          precision: 4,  scale: 2, default: 0.0
+    t.string   "color"
+    t.boolean  "display_stock_out",                          default: true
+    t.boolean  "active",                                     default: true
+    t.integer  "inventory",                                  default: 0,    null: false
+    t.text     "description",                                default: ""
+    t.string   "image_0"
+    t.string   "image_1"
+    t.string   "image_2"
+    t.string   "meta_title"
+    t.string   "meta_keyword"
+    t.text     "meta_description"
+    t.decimal  "average_rating",    precision: 2,  scale: 1, default: 0.0
+    t.integer  "review_count",                               default: 0
+    t.datetime "created_at",                                                null: false
+    t.datetime "updated_at",                                                null: false
+  end
+
+  add_index "items", ["category_id"], name: "index_items_on_category_id", using: :btree
+  add_index "items", ["name"], name: "index_items_on_name", using: :btree
+  add_index "items", ["user_id"], name: "index_items_on_user_id", using: :btree
+
   create_table "main_categories", force: :cascade do |t|
     t.integer  "city_id"
     t.integer  "sequence_id",                null: false
@@ -76,6 +110,7 @@ ActiveRecord::Schema.define(version: 20170528150528) do
   end
 
   add_index "main_categories", ["city_id"], name: "index_main_categories_on_city_id", using: :btree
+  add_index "main_categories", ["name"], name: "index_main_categories_on_name", unique: true, using: :btree
 
   create_table "states", force: :cascade do |t|
     t.integer  "country_id"
@@ -86,7 +121,9 @@ ActiveRecord::Schema.define(version: 20170528150528) do
     t.datetime "updated_at",                null: false
   end
 
+  add_index "states", ["code"], name: "index_states_on_code", unique: true, using: :btree
   add_index "states", ["country_id"], name: "index_states_on_country_id", using: :btree
+  add_index "states", ["name"], name: "index_states_on_name", unique: true, using: :btree
 
   create_table "sub_main_categories", force: :cascade do |t|
     t.integer  "main_category_id"
@@ -98,6 +135,7 @@ ActiveRecord::Schema.define(version: 20170528150528) do
   end
 
   add_index "sub_main_categories", ["main_category_id"], name: "index_sub_main_categories_on_main_category_id", using: :btree
+  add_index "sub_main_categories", ["name"], name: "index_sub_main_categories_on_name", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "first_name",             default: "",    null: false
@@ -127,6 +165,8 @@ ActiveRecord::Schema.define(version: 20170528150528) do
 
   add_foreign_key "categories", "sub_main_categories"
   add_foreign_key "cities", "states"
+  add_foreign_key "items", "categories"
+  add_foreign_key "items", "users"
   add_foreign_key "main_categories", "cities"
   add_foreign_key "states", "countries"
   add_foreign_key "sub_main_categories", "main_categories"
