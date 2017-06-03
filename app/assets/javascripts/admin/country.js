@@ -28,20 +28,48 @@ LD.Country.prototype= {
   },
 
   loadCountryIntoDataTable: function(data) {
+    var self = this;
     var table = $('#countryContainer #countryTable').DataTable();
       table.clear().draw();
       $.each(data, function(i,item){
         i = i+1;
         table.row.add( $(
-           '<tr>'+
-            '<td>'+i+'</td>'+
-            '<td>'+item.name+'</td>'+
-            '<td>'+item.code+'</td>'+
-            '<td>'+item.active+'</td>'+
-            '<td data-user-id ='+item.id+'><a class="btn btn-info btn-sm" id="editUser">Edit</a> &nbsp;&nbsp;<a class="btn btn-danger btn-sm" id="deleteUser">Delete</a></td>'+
-            '<tr>'
+         '<tr>'+
+          '<td>'+i+'</td>'+
+          '<td>'+item.name+'</td>'+
+          '<td>'+item.code+'</td>'+
+          '<td>'+item.active+'</td>'+
+          '<td data-country-id ='+item.id+'><a class="btn btn-info btn-sm" id="editCountry">Edit</a> &nbsp;&nbsp;<a class="btn btn-danger btn-sm" id="deleteCountry">Delete</a></td>'+
+          '<tr>'
         )[0]).draw();
       });
+    self.handleEditCountry();
+    //self.handleDeleteCountry();
+  },
+
+  handleEditCountry:function () {
+    var self = this;
+    $('#countryContainer #countryTable #editCountry').unbind('click');
+    $('#countryContainer #countryTable #editCountry').on('click', function (e) {
+      e.preventDefault();
+      var countryId = $(this).parent().attr('data-country-id');
+      var country = $.grep(countryData, function(country){ return country.id == countryId; });
+      $('#countryContainer #countryModal').modal('show');
+      $("#countryContainer #countryModal #title").val(country[0].name);
+      $("#countryContainer #countryModal #code").val(country[0].code);
+      //var status = country[0].active == true ? "Active" : "Deactive";
+      console.log(country[0].active);
+      if(country[0].active == true)
+      {
+        $('#countryContainer #countryModal #status').parent().addClass('checked')
+      }
+      else
+      {
+        $('#countryContainer #countryModal #status').parent().removeClass('checked')
+      }
+      //self.handleUpdateTag(tagID);
+      
+    });
   },
 
   resetCountryForm: function() {
