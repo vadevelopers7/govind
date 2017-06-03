@@ -26,14 +26,14 @@ class Admin::SessionsController < ApplicationController
   def logout
     if @device
       if @current_user.role == "admin"
-        # @auth_token = @device.auth_token
-        # @user_client = DeviseMultipleTokenAuthDevice.where(:auth_token => @auth_token).first
+        @auth_token = @device.auth_token
+        @user_client = DeviseMultipleTokenAuthDevice.where(:auth_token => @auth_token).first
         # DeviseMultipleTokenAuthDevice.where(:user_id => @user_client.user_id, :platform => @user_client.platform).delete_all
         @device.destroy
         render json: {}, status: :ok
-      else
-        render json: {}, status: :unauthorized
+        return
       end
     end
+    render json: {}, status: :unauthorized
   end
 end
