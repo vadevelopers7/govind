@@ -10,6 +10,6 @@ class CreateMainCategories < ActiveRecord::Migration
       t.timestamps null: false
     end
     add_foreign_key :main_categories, :cities
-    add_index :main_categories, :name, unique: true
+    add_index :main_categories, :name
   end
 end

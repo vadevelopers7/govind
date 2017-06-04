@@ -43,8 +43,8 @@ ActiveRecord::Schema.define(version: 20170603120330) do
     t.datetime "updated_at",                                                  null: false
   end
 
-  add_index "cities", ["code"], name: "index_cities_on_code", unique: true, using: :btree
-  add_index "cities", ["name"], name: "index_cities_on_name", unique: true, using: :btree
+  add_index "cities", ["code"], name: "index_cities_on_code", using: :btree
+  add_index "cities", ["name"], name: "index_cities_on_name", using: :btree
   add_index "cities", ["state_id"], name: "index_cities_on_state_id", using: :btree
 
   create_table "countries", force: :cascade do |t|
@@ -110,7 +110,7 @@ ActiveRecord::Schema.define(version: 20170603120330) do
   end
 
   add_index "main_categories", ["city_id"], name: "index_main_categories_on_city_id", using: :btree
-  add_index "main_categories", ["name"], name: "index_main_categories_on_name", unique: true, using: :btree
+  add_index "main_categories", ["name"], name: "index_main_categories_on_name", using: :btree
 
   create_table "states", force: :cascade do |t|
     t.integer  "country_id"
@@ -121,9 +121,9 @@ ActiveRecord::Schema.define(version: 20170603120330) do
     t.datetime "updated_at",                null: false
   end
 
-  add_index "states", ["code"], name: "index_states_on_code", unique: true, using: :btree
+  add_index "states", ["code"], name: "index_states_on_code", using: :btree
   add_index "states", ["country_id"], name: "index_states_on_country_id", using: :btree
-  add_index "states", ["name"], name: "index_states_on_name", unique: true, using: :btree
+  add_index "states", ["name"], name: "index_states_on_name", using: :btree
 
   create_table "sub_main_categories", force: :cascade do |t|
     t.integer  "main_category_id"
