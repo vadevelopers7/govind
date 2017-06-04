@@ -17,8 +17,18 @@ class Admin::ItemsController < ApplicationController
     end
   end
 
+  def create
+    begin
+      Item.transaction do
+        render :json => {item: JSON.parse(Item.create!(item_params).to_json(except: [:meta_title, :meta_keyword, :meta_description, :average_rating, :review_count, :created_at, :updated_at]))}, :status => :ok
+      end
+    rescue => e
+      render :json => {error: e.message}, :status => :unprocessable_entity
+    end
+  end
+
   private
-  def address_params
-    params.require(:address).permit(:user_address, :city_name, :zipcode, :user_id, :name, :phone, :city_id)
+  def item_params
+    params.require(:item).permit(:category_id, :user_id, :name, :model_no, :price, :discount, :color, :display_stock_out, :active, :inventory, :description, :image_0, :image_1, :image_2, :meta_title, :meta_keyword, :meta_description, :average_rating, :review_count)
   end
 end

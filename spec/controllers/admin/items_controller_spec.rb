@@ -67,5 +67,34 @@ RSpec.describe Admin::ItemsController, type: :controller do
       end
     end
   end
+  describe "create" do
+    context "with valid params" do
+      it "should create item" do
+        user = FactoryGirl.create(:user, role: "retailer")
+        post :create, item: FactoryGirl.attributes_for(:item, user_id: user.id, category_id: @category.id)
+        expect(JSON.parse(response.body)["item"].keys).to contain_exactly("id", "category_id", "user_id", "name", "model_no", "price", "discount", "color", "display_stock_out", "active", "inventory", "description", "image_0", "image_1", "image_2")
+        expect(response).to be_ok
+      end
+      it "should increase Item table count by one" do
+        user = FactoryGirl.create(:user, role: "retailer")
+        expect{
+          post :create, item: FactoryGirl.attributes_for(:item, user_id: user.id, category_id: @category.id)
+        }.to change(Item, :count).by(1)
+      end
+    end
+    context "with invalid params" do
+      it "should not create item if item name is nil" do
+        user = FactoryGirl.create(:user, role: "retailer")
+        post :create, item: FactoryGirl.attributes_for(:item, user_id: user.id, category_id: @category.id, name: nil)
+        expect(response.status).to be 422
+      end
+      it "should not increase Item table count by one" do
+        user = FactoryGirl.create(:user, role: "retailer")
+        expect{
+          post :create, item: FactoryGirl.attributes_for(:item, user_id: user.id, category_id: @category.id, name: nil)
+        }.to change(Item, :count).by(0)
+      end
+    end
+  end
 
 end
