@@ -30,7 +30,6 @@ RSpec.describe Admin::ItemsController, type: :controller do
       end
     end
   end
-
   describe "index_by_retailer" do
     context "valid params" do
       it "should render all items of a retailer" do
@@ -49,4 +48,24 @@ RSpec.describe Admin::ItemsController, type: :controller do
       end
     end
   end
+  describe "show" do
+    before(:each) do
+      @item = FactoryGirl.create(:item, category_id: @category.id)
+    end
+    context "with valid params" do
+      it "should render a specific item detail" do
+        get :show, id: @item.id
+        expect(JSON.parse(response.body)["item"]).to eq("id" => @item.id, "user_id" => @item.user_id, "category_id" => @item.category_id, "name" => @item.name, "model_no" => @item.model_no, "price" => @item.price.to_s, "discount" => @item.discount.to_s, "color" => @item.color, "display_stock_out" => @item.display_stock_out, "active" => @item.active, "inventory" => @item.inventory, "description" => @item.description, "image_0" => @item.image_0, "image_1" => @item.image_1, "image_2" => @item.image_2, "meta_title" => @item.meta_title, "meta_keyword" => @item.meta_keyword, "meta_description" => @item.meta_description, "average_rating" => @item.average_rating.to_s, "review_count" => @item.review_count)
+        expect(response).to be_ok
+      end
+    end
+    context "with invalid params" do
+      it "should not render item details" do
+        get :show, id: @item.id+1
+        expect(JSON.parse(response.body)).to eq("error"=>"Couldn't find Item with 'id'=#{@item.id+1}")
+        expect(response.status).to be 422
+      end
+    end
+  end
+
 end
