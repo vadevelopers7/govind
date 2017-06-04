@@ -26,6 +26,10 @@ Rails.application.routes.draw do
 
     get 'categories/by_sub', to: 'categories#index_by_sub_main_category'
     resources :categories, except: [:index, :new, :edit]
+
+    get 'items/by_category', to: 'items#index_by_category'
+    get 'items/by_retailer', to: 'items#index_by_retailer'
+    resources :items, except: [:index, :new, :edit]
   end
   # admin panel routes end
 
